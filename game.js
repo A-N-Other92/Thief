@@ -179,23 +179,131 @@ function update(currentTime) {
 
 }
 
+let gameStarted = false;
+
+function drawIntroScreen() {
+
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Title
+  ctx.fillStyle = "red";
+  ctx.font = "bold 55px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("THIEF 2026", canvas.width / 2, 100);
+
+  // Simple Pac-Man graphic
+  /*ctx.beginPath();
+  ctx.arc(
+    canvas.width / 2,
+    180,
+    35,
+    0.25 * Math.PI,
+    1.75 * Math.PI
+  );
+  ctx.lineTo(canvas.width / 2, 180);
+  ctx.fillStyle = "yellow";
+  ctx.fill();
+  */
+
+  /*ctx.drawImage(pacmanImg,
+    pacman.x * tileSize ,
+    pacman.y * tileSize ,
+    tileSize, 
+    tileSize);
+    */
+    ctx.drawImage(pacmanImg,
+      7 * tileSize ,
+      4 * tileSize ,
+      tileSize, 
+      tileSize);
+
+  // Ghost
+  /*
+  ctx.fillStyle = "red";
+  ctx.beginPath();
+  ctx.arc(
+    canvas.width / 2 + 80,
+    180,
+    30,
+    Math.PI,
+    0
+  );
+  ctx.lineTo(canvas.width / 2 + 110, 210);
+  ctx.lineTo(canvas.width / 2 + 95, 195);
+  ctx.lineTo(canvas.width / 2 + 80, 210);
+  ctx.lineTo(canvas.width / 2 + 65, 195);
+  ctx.lineTo(canvas.width / 2 + 50, 210);
+  ctx.closePath();
+  ctx.fill();
+*/
+  ctx.drawImage(moneyImg,
+    9 * tileSize ,
+    4 * tileSize ,
+    tileSize, 
+    tileSize);
+
+
+  // Instructions
+  ctx.fillStyle = "blue";
+  ctx.font = "22px Arial";
+  ctx.fillText(
+    "USE ARROW KEYS TO MOVE",
+    canvas.width / 2,
+    280
+  );
+
+  // Start message";
+  ctx.fillStyle = "red";
+  ctx.font = "bold 24px Arial";
+  ctx.fillText(
+    "PRESS ANY KEY TO START",
+    canvas.width / 2,
+    330
+  );
+
+  ctx.fillStyle = "white";
+  ctx.font = "18px Arial";
+  ctx.fillText(
+    "Collect the pellets and avoid the ghost!",
+    canvas.width / 2,
+    365
+  );
+
+}
+
+
 function gameLoop(currentTime) {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if(Math.random() < 0.04) updateGhost();
+  if (!gameStarted) {
 
-  drawMap();
-  update(currentTime);
-  drawPacman();
-  drawGhost();
-  drawScore();
-  drawMoney();
+    // Show introduction
+    drawIntroScreen();
 
+  } else {
+
+    // -----------------------
+    // MAIN PAC-MAN GAME
+    // -----------------------
+
+    if (Math.random() < 0.04) {
+      updateGhost();
+    }
+
+    drawMap();
+    update(currentTime);
+    drawPacman();
+    drawGhost();
+    drawScore();
+    drawMoney();
+  }
 
   requestAnimationFrame(gameLoop);
 }
 
-let gameStarted = false;
+//let gameStarted = false;
 
 document.addEventListener("keydown", (e) => {
   if (!gameStarted) {
